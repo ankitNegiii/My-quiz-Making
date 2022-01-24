@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>quiz making</title>
+    <style>
+      body {
+        background: cornflowerblue;
+        overflow: hidden;
+      }
+      .inner-cont {
+        display: grid;
+        justify-content: center;
+        margin: 150px auto;
+        width: 300px;
+        padding: 20px;
+        background-color: rgb(197, 228, 166);
+        border-radius: 20px;
+        box-shadow: 0 1rem gray;
+      }
+      h1 {
+        margin: auto;
+      }
+      .inner-cont .question {
+        color: red;
+      }
+      .inner-cont li {
+        list-style: none;
+        padding: 5px;
+      }
+      input {
+        cursor: pointer;
+      }
+      .submit {
+        border-radius: 10px;
+        background: linear-gradient(lightblue, pink);
+        padding: 5px;
+        width: 100px;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+      }
+      .submit:hover {
+        background: linear-gradient(pink, lightgreen);
+      }
+      #scoreArea {
+        background-color: red;
+        font-size: 20px;
+        text-align: center;
+        margin: 10px;
+        border-radius: 20px;
+      }
+      .btn {
+        background-color: black;
+        cursor: pointer;
+        color: blanchedalmond;
+        border-radius: 20px;
+        width: 100px;
+        position: relative;
+        bottom: 10px;
+      }
+      .btn:hover {
+        background-color: white;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="inner-cont">
+      <h1 class="question">This is my questions</h1>
+      <ul>
+        <li>
+          <input type="radio" name="answer" id="ans1" class="answer" />
+          <label id="option1">answer one</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="ans2" class="answer" />
+          <label id="option2">answer two</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="ans3" class="answer" />
+          <label id="option3">answer one</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="ans4" class="answer" />
+          <label id="option4">answer one</label>
+        </li>
+      </ul>
+      <button class="submit">SUBMIT</button>
+      <div id="scoreArea" class="showScore"></div>
+    </div>
+    <script>
+      let value = [
+        {
+          Question: "Q1 : What is my full name ?",
+          a: "Ankit Negii",
+          b: "Ankit Rawat",
+          c: "Ankit Bhardwaj",
+          d: "Ankit Negi",
+          ans: "ans4",
+        },
+        {
+          Question: "Q2 : Where do i live in Dehradun ?",
+          a: "Clement town",
+          b: "Majara",
+          c: "Chandramini",
+          d: "Rajpur",
+          ans: "ans1",
+        },
+        {
+          Question: "Q3 : My date of birth ?",
+          a: "31/08/1997",
+          b: "4/06/1995",
+          c: "31/08/1998",
+          d: "20/08/1998",
+          ans: "ans3",
+        },
+        {
+          Question: "Q4 : My favorite sports ?",
+          a: "Football",
+          b: "Cricket",
+          c: "Hockey",
+          d: "Bascket ball",
+          ans: "ans1",
+        },
+        {
+          Question: "Q5 : I belong to which district in Uk ?",
+          a: "Tehri",
+          b: "Dehradun",
+          c: "Chamoli",
+          d: "Poudi",
+          ans: "ans3",
+        },
+        {
+          Question: "Q6 : My fav food  ?",
+          a: "Chola bhatura",
+          b: "Kadi chawal",
+          c: "Pizza,burger",
+          d: "Momos",
+          ans: "ans1",
+        },
+        {
+          Question: "Q7 : Form where i did my graduation ?",
+          a: "Graphic Era ",
+          b: "Kukreja Institute",
+          c: "D.I.T",
+          d: "D.U",
+          ans: "ans2",
+        },
+      ];
+      const question = document.querySelector(".question");
+      const option1 = document.querySelector("#option1");
+      const option2 = document.querySelector("#option2");
+      const option3 = document.querySelector("#option3");
+      const option4 = document.querySelector("#option4");
+      const submit = document.querySelector(".submit");
+      const answers = document.querySelectorAll(".answer");
+      const scoreArea = document.querySelector("#scoreArea");
+      let questionCount = 0;
+      let score = 0;
+      const loadQuestion = () => {
+        // console.log(value[2].Question)
+        const questionList = value[questionCount];
+
+        question.innerText = questionList.Question;
+
+        option1.innerText = questionList.a;
+        option2.innerText = questionList.b;
+        option3.innerText = questionList.c;
+        option4.innerText = questionList.d;
+      };
+      loadQuestion();
+
+      const getCheckAnswer = () => {
+        let answer;
+        answers.forEach((curAnsElem) => {
+          if (curAnsElem.checked) {
+            answer = curAnsElem.id;
+          }
+        });
+        return answer;
+      };
+      const notSelect = () => {
+        answers.forEach((curAnsElem) => (curAnsElem.checked = false));
+      };
+
+      submit.addEventListener("click", () => {
+        const checkedAnswer = getCheckAnswer();
+        // console.log(checkedAnswer);
+
+        if (checkedAnswer == value[questionCount].ans) {
+          score++;
+        }
+        questionCount++;
+
+        notSelect();
+
+        if (questionCount < value.length) {
+          loadQuestion();
+        } else {
+          scoreArea.innerHTML = `
+          <h3> You score is ${score}/${value.length} nice play</h3>
+          <button class = 'btn'onclick='location.reload()'>Play Again</button>`;
+        }
+      });
+    </script>
+  </body>
+</html>
+
